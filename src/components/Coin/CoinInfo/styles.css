@@ -1,0 +1,13 @@
+.info-component {
+    padding-bottom: 1rem;  
+    padding-top: 1rem;
+    cursor: pointer;
+}
+
+.info-p a{
+    text-decoration: underline !important;
+}
+
+.info-p a:hover {
+    color: var(--blue) !important;
+}
