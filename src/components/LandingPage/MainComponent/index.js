@@ -4,10 +4,8 @@ import Button from "../../Common/Button";
 import iphone from "../../../assets/iphone.png"
 import gradient from "../../../assets/gradient.png"
 import { motion } from "framer-motion"
-import { RWebShare } from "react-web-share";
-import { toast } from "react-toastify";
 
-function MainComponent({ text, onclick, outlined }) {
+function MainComponent() {
     return <div className="flex-info">
         <div className="left-component">
             <motion.h1 className="track-crypto-heading"
@@ -40,16 +38,7 @@ function MainComponent({ text, onclick, outlined }) {
                 <a href="/dashboard">
                     <Button text={"Dashboard"} />
                 </a>
-                <RWebShare
-                    data={{
-                        text: "CryptoDashboard made by Avi Vashishta using React JS.",
-                        url: "https://crypto-dashboard-jan.netlify.app",
-                        title: "CryptoTracker.",
-                    }}
-                    onClick={() => toast.info("App Shared!")}
-                >
-                    <Button text={"Share"} outlined={true} />
-                </RWebShare>
+                <Button text={"Share"} outlined={true} />
             </motion.div>
         </div>
         <div className="phone-container">

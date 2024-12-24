@@ -12,7 +12,6 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 const client = Binance.default({});
 
-// Hàm lấy giá theo tên coin
 async function getStatsBinance(coin) {
   try {
     const ticker24hr = await client.dailyStats({ symbol: `${coin}USDT` });
@@ -28,17 +27,66 @@ async function getStatsBinance(coin) {
 
 async function getStatsKucoin(symbol) {
   try {
-    // Gửi yêu cầu HTTP tới API của KuCoin
     const response = await axios.get(`https://api.kucoin.com/api/v1/market/stats?symbol=${symbol}`);
-
-    // Log dữ liệu trả về từ API
-    console.log(response.data);  // Đảm bảo bạn đang truy xuất đúng dữ liệu từ response
-
-    // Trả về dữ liệu trả về từ API
-    return response.data;  // Trả về dữ liệu từ API, không phải đối tượng {response}
+    return response.data;
   } catch (error) {
     console.error('Error fetching data:', error);
-    return null;  // Trả về null nếu có lỗi
+    return null;
+  }
+}
+
+async function getStatsOkx(symbol) {
+  try {
+    const response = await axios.get(`https://www.okx.com/api/v5/market/ticker?instId=${symbol}`);
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching data:', error);
+    return null;
+  }
+}
+
+async function getStatsGate(symbol) {
+  try {
+    const response = await axios.get(`https://api.gateio.ws/api2/1/ticker/${symbol}`);
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching data:', error);
+    return null;
+  }
+}
+
+// Hàm trích xuất phần tử đầu tiên của mỗi mảng trong kết quả
+function arrayKraken(data) {
+  // Lấy phần tử duy nhất trong mảng 'result' (sử dụng Object.values() để lấy giá trị)
+  const result = Object.values(data['result'])[0];  // Lấy phần tử đầu tiên của mảng 'result'
+
+  // Dùng map để tạo đối tượng mới với phần tử đầu tiên của mỗi mảng
+  const first_elements = {};
+  
+  for (const [key, values] of Object.entries(result)) {
+    if (key === 'o') {
+      // Xử lý đặc biệt cho key 'o', giữ nguyên giá trị
+      first_elements[key] = values;
+      continue;  // Tiếp tục với phần tử tiếp theo trong vòng lặp
+    }
+    // Lấy phần tử đầu tiên của mảng cho các key khác
+    first_elements[key] = values[0];
+  }
+  
+
+  return first_elements;
+}
+
+
+
+async function getStatsKraken(symbol) {
+  try {
+    const response = await axios.get(`https://api.kraken.com/0/public/Ticker?pair=${symbol}`);
+    console.log(response.data);
+    return arrayKraken(response.data);
+  } catch (error) {
+    console.error('Error fetching data:', error);
+    return null;
   }
 }
 
@@ -49,25 +97,28 @@ app.use(function (rep, res, next) {
 })
 
 // Route để lấy giá khi có yêu cầu POST
-app.post("/balance", async  function(req, res){
-  console.log('Dữ liệu nhận được:', req.body); 
+app.post("/balance", async function (req, res) {
+  const receivedObject = req.body;
 
-  const receivedObject = req.body; // Ví dụ: { bnb: "some_value" }
-  
-  // Lấy tên của thuộc tính đầu tiên (nếu đối tượng có nhiều thuộc tính, bạn có thể điều chỉnh để lấy tất cả)
   const keys = Object.keys(receivedObject);
-  const firstKey = keys[0];
-  const uppercaseKey = firstKey.toUpperCase();
-  //var symbol = req.body.symbol;  // Chuyển chuỗi raw thành string
-  console.log(`Fetching data for: ${uppercaseKey}`);
-  const dataBinance = await getStatsBinance(uppercaseKey);
-  const dataKucoin = await getStatsKucoin(`${uppercaseKey}-USDT`);
+  const coin = keys[0].toUpperCase();
+
+  console.log(`Fetching data for: ${coin}`);
+  const dataBinance = await getStatsBinance(coin);
+  const dataKucoin = await getStatsKucoin(`${coin}-USDT`);
+  const dataKraken = await getStatsKraken(`${coin}USD`);
+  const dataOkx = await getStatsOkx(`${coin}-USDT`);
+  const dataGate = await getStatsGate(`${coin}_USDT`);
+  console.log(dataKraken);
 
   if (dataBinance) {
     res.json({
       success: true,
       dataBinance: dataBinance,
-      dataKucoin: dataKucoin
+      dataKucoin: dataKucoin,
+      dataKraken: dataKraken,
+      dataOkx: dataOkx,
+      dataGate: dataGate
     });
   } else {
     res.status(500).json({
