@@ -2,16 +2,14 @@ import axios from "axios";
 
 export const get100Coins = () => {
     const myCoins = axios
-        .get(
-            "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1&sparkline=false"
-        )
+        .get("http://localhost:5000/api/coins")  // Gọi API backend
         .then((response) => {
-            console.log("RESPONSE>>>", response);
-            return response.data;
+            console.log("RESPONSE>>>", response.data.coins);
+            return response.data.coins;
         })
         .catch((error) => {
             console.log("ERROR>>>", error);
         });
 
     return myCoins;
-}
+};

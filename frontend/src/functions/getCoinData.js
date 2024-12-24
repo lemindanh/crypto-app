@@ -2,10 +2,10 @@ import axios from "axios";
 
 export const getCoinData = (id, setError) => {
   const coin = axios
-    .get(`https://api.coingecko.com/api/v3/coins/${id}`)
+    .get(`http://localhost:5000/api/coin/${id}`)
     .then((response) => {
-      if (response.data) {
-        return response.data;
+      if (response.data.coin) {
+        return response.data.coin;
       }
     })
     .catch((e) => {

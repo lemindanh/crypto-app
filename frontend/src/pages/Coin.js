@@ -13,6 +13,7 @@ import { getPrices } from "../functions/getPrices";
 import { settingChartData } from "../functions/settingChartData";
 import { settingCoinObject } from "../functions/settingCoinObject";
 import Table from "../components/Coin/Table";
+import ButtonTradingView from "../components/Coin/ButtonTrandingView/ButtonTrandingView.js";
 
 function Coin() {
   const { id } = useParams();
@@ -79,6 +80,7 @@ function Coin() {
             />
             <LineChart chartData={chartData} />
           </div>
+          <ButtonTradingView symbol="ETHUSDT" />
           <Table coin={coin}/>
           <Info title={coin.name} desc={coin.desc} />
         </>

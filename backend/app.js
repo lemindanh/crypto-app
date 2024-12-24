@@ -1,11 +1,15 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import balanceRoute from './routes/balance.js';
+import coinsDataRoute from './routes/coinsData.js'
+import coinDataRoute from './routes/coinData.js'
+import coinPricesRoute from './routes/coinPrices.js'
 
+import cors from 'cors';
 
 const app = express();
 const PORT = 5000;
-
+app.use(cors());
 // Middleware
 app.use(bodyParser.raw({ type: 'text/plain' }));
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -21,6 +25,9 @@ app.use((req, res, next) => {
 
 // Routes
 app.use('/balance', balanceRoute);
+app.use('/api/coins', coinsDataRoute);
+app.use('/api/coin', coinDataRoute);
+app.use('/api/prices', coinPricesRoute);
 
 // Start the server
 app.listen(PORT, () => {

@@ -1,0 +1,63 @@
+.tradingview-button {
+    padding: 10px 20px;
+    font-size: 16px;
+    color: black; /* Thay đổi màu chữ thành màu đen */
+    background-color: #f2f2f2; /* Màu xám */
+    border: 1px solid #ccc; 
+    border-radius: 25px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    display: block; /* Để nút có thể căn giữa */
+    margin: 0 auto; /* Căn giữa theo chiều ngang */
+  }
+  #tradingview_widget {
+    margin-top: 20px; /* Thêm khoảng cách trên để biểu đồ xuống dưới một chút */
+    border-radius: 20px; /* Bo tròn các góc của biểu đồ */
+    overflow: hidden; /* Đảm bảo các góc của biểu đồ không bị cắt khi bo tròn */
+  }
+  .tradingview-button:hover {
+    background-color: #d4d5d7; /* Màu xám tối hơn khi hover */
+  }
+  
+  .popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  .popup-content {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    width: 90%; /* Chiều rộng cửa sổ popup */
+    max-width: 1200px; /* Giới hạn chiều rộng tối đa */
+    height: 80%; /* Đặt chiều cao cửa sổ popup lên 80% chiều cao màn hình */
+    max-height: 58vh; /* Giới hạn chiều cao tối đa của cửa sổ popup */
+    position: relative;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    overflow-y: auto; /* Thêm thanh cuộn nếu nội dung quá dài */
+  }
+  
+  .close-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: red;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .close-button:hover {
+    background: darkred;
+  }
+  

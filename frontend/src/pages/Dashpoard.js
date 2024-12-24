@@ -25,12 +25,12 @@ function Dashboard() {
     setLoading(true);
     axios
       .get(
-        "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1&sparkline=false"
+        "http://localhost:5000/api/coins"
       )
       .then((response) => {
-        console.log("RESPONSE>>>", response.data);
-        setCoins(response.data);
-        setPaginatedCoins(response.data.slice(0, 10));
+        console.log("RESPONSE>>>", response.data.coins);
+        setCoins(response.data.coins);
+        setPaginatedCoins(response.data.coins.slice(0, 10));
         setLoading(false);
       })
       .catch((error) => {

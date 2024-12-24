@@ -20,7 +20,6 @@ router.post('/', async (req, res) => {
     const dataKraken = await getStatsKraken(`${coin}USD`);
     const dataOkx = await getStatsOkx(`${coin}-USDT`);
     const dataGate = await getStatsGate(`${coin}_USDT`);
-    console.log(dataKraken);
   
     if (dataBinance) {
       res.json({
