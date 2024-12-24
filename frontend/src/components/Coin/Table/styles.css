@@ -1,0 +1,190 @@
+/* .list-row: Định dạng cho mỗi dòng trong danh sách */
+.table-cont {
+  background-color: var(--darkgrey);
+  /* Màu xám nhẹ cho khung */
+  padding: 20px;
+  /* Khoảng cách bên trong khung */
+  border-radius: 20px;
+  /* Bo góc cho khung */
+}
+
+table td {
+  padding: 1rem 1rem;
+  /* Điều chỉnh padding của ô để tạo khoảng cách giữa các ô */
+}
+
+/* Xóa viền của bảng */
+table {
+  background-color: var(--darkgrey);
+  /* Màu xám nhẹ cho khung */
+  width: 100%;
+  border-collapse: collapse;
+  /* Xóa các khoảng cách giữa các ô */
+  text-align: center;
+  margin-top: 20px;
+  border: none;
+  /* Xóa viền bảng */
+}
+
+/* Căn giữa các ô trong cột 'Price Change (%)' */
+
+
+/* Căn giữa nội dung trong thẻ td cho cột 'Price Change (%)' */
+.td-24h_Price_Change {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2.5rem;
+  /* Khoảng cách bên trong ô nếu cần */
+  text-align: center;
+  /* Căn giữa chữ */
+}
+
+/* Đảm bảo các phần tử bên trong chip-flex cũng được căn giữa */
+
+
+/* Đảm bảo chip-icon được căn giữa */
+
+
+
+/* Đảm bảo rằng các biểu tượng và phần trăm đều căn giữa */
+
+
+
+
+/* Định dạng cho các ô dữ liệu trong mỗi dòng */
+.unique-list-row td {
+  width: 20%;
+  text-align: center;
+  padding: 0.8rem;
+  font-size: 1rem;
+  /* Kích thước font cơ bản */
+  color: var(--black);
+  /* Màu chữ */
+}
+
+/* Định dạng cho hình ảnh của coin */
+.td-chip-icon
+
+/* Định dạng cho thông tin coin */
+.td-infor {
+  width: 10rem !important;
+}
+
+/* Định dạng cho giá của coin */
+.td-current-price {
+  width: 6rem !important;
+  text-align: center !important;
+  font-weight: bold;
+}
+
+/* Định dạng cho tổng khối lượng giao dịch và vốn hóa thị trường */
+.td-totalVolume,
+.td-marketCap {
+  text-align: center !important;
+}
+
+/* Ẩn thông tin mobile ban đầu */
+.mobile {
+  display: none;
+}
+
+/* Media query cho màn hình có độ rộng từ 600px đến 900px */
+@media only screen and (max-width: 900px) {
+
+  /* Ẩn biểu tượng chip */
+  .td-chip-icon {
+    display: none;
+  }
+
+  /* Giảm kích thước font khi màn hình nhỏ */
+  .list-row td {
+    font-size: 0.7rem;
+  }
+
+  /* Ẩn tổng khối lượng giao dịch */
+  .td-totalVolume {
+    display: none;
+  }
+
+  /* Căn giữa giá coin */
+  .td-current-price {
+    text-align: center !important;
+  }
+
+  /* Điều chỉnh kích thước bảng cho màn hình nhỏ */
+  .list-row {
+    width: 100%;
+    padding: 1.5rem 0rem;
+  }
+
+  /* Điều chỉnh kích thước hình ảnh coin */
+  .coin-image-td {
+    height: 2rem;
+    width: 2rem;
+  }
+
+  /* Điều chỉnh chiều rộng của thông tin coin */
+  .td-info {
+    width: 6rem !important;
+  }
+}
+
+/* Media query cho màn hình có độ rộng dưới 600px */
+@media only screen and (max-width: 600px) {
+
+  /* Ẩn các cột không cần thiết */
+  .td-marketCap,
+  .td-chip-icon {
+    display: none !important;
+  }
+
+  /* Hiển thị thông tin mobile */
+  .mobile {
+    display: block !important;
+    text-align: left !important;
+  }
+
+  /* Giảm kích thước font cho thiết bị di động */
+  .list-row td,
+  .td-p {
+    font-size: 0.6rem !important;
+  }
+
+  /* Điều chỉnh chiều rộng của thông tin coin */
+  .td-info {
+    width: 4rem !important;
+  }
+
+  /* Điều chỉnh kích thước hình ảnh coin */
+  .coin-image-td {
+    height: 2rem !important;
+    width: 2rem !important;
+  }
+}
+
+.table-title {
+  border: 4rem;
+  height: 50px;
+  font-weight: 600;
+  color: var(--grey);
+  font-size: 1.2rem;
+}
+
+.img-marketcap {
+  width: 20px;
+}
+
+.marketcap {
+  display: flex;
+  padding-top: 1.5rem;
+  justify-content: center;
+  align-items: center;
+}
+
+.chip-flex1 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.75rem;
+}

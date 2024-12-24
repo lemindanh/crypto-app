@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import "./Table.css";
+import "./styles.css";
 import TrendingDownRoundedIcon from "@mui/icons-material/TrendingDownRounded";
 import TrendingUpRoundedIcon from "@mui/icons-material/TrendingUpRounded";
 //import { convertNumber } from "../../../functions/convertNumber";
@@ -20,7 +20,7 @@ function Table({ coin }) {
                 // Gửi tên đồng coin qua body của request POST
                 const response = await axios.post('http://localhost:5000/balance', `${coin.symbol}`);
                 console.log("RESPONSE>>>", response.data);
-    
+
                 // Lấy dữ liệu trả về từ Binance và KuCoin
                 const coinBinance = response.data.dataBinance.stats;
                 const coinKucoin = response.data.dataKucoin.data;
@@ -37,24 +37,24 @@ function Table({ coin }) {
                 console.log("ERROR>>>", error.message);
             }
         };
-    
+
         // Gọi getData khi coin.name thay đổi
         getData();
     }, [coin.symbol]); // Khi coin.name thay đổi, hàm sẽ được gọi lại
-    
+
     return (
-        <div id="unique-list-row">
-           
+        <div class="grey-wrapper">
+
             <div className="table-cont">
-            <h1 style={{ textAlign: "center" }}>Coin Data</h1>
+                <h1 style={{ textAlign: "center" }}>Coin Data</h1>
                 <table>
-                    <thead>
+                    <thead  className="table-title">
                         <tr>
                             <th>Coin</th>
                             <th>Exchange</th>
                             <th>Price</th>
                             <th>Total volume</th>
-                            
+                            <th>Percent Change</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -62,66 +62,74 @@ function Table({ coin }) {
                             <Tooltip title="Coin Info" placement="bottom-start">
                                 <td className="td-info">
                                     <div className="info-flex">
-                                    <p className="coin-symbol">{coin.symbol.toUpperCase()}</p>
-                                    <p className="coin-name">{coin.name}</p>
+                                        <p className="coin-symbol">{coin.symbol.toUpperCase()}</p>
+                                        <p className="coin-name">{coin.name}</p>
                                     </div>
                                 </td>
                             </Tooltip>
-                            <td>{"Coingecko"}</td>
+                            <Tooltip className="marketcap" title="Coinmaket" placement="bottom-start">
+                                <td>
+                                    <img className="img-marketcap" src={`${process.env.PUBLIC_URL}/coingecko.png`} alt="Coingecko Logo" />
+                                    <p>{"Coingecko"}</p>
+                                </td>
+                            </Tooltip>
                             <Tooltip title="Current Price (USD)" placement="bottom-end">
                                 <td
-                                    className={`current-price ${
-                                    coin.price_change_percentage_24h < 0 ? "current-price-red" : ""
-                                    }`}
+                                    className={`current-price ${coin.price_change_percentage_24h < 0 ? "current-price-red" : ""
+                                        }`}
                                 >
-                                    ${coin.current_price.toLocaleString()}
+                                    ${coin.current_price.toFixed(2)}
                                 </td>
                             </Tooltip>
                             <td>{coin.total_volume.toFixed(2)}$</td>
                             <Tooltip
                                 title="Coin Price Percentage In 24hrs"
                                 placement="bottom-start"
-                                >
+                            >
                                 {coin.price_change_percentage_24h >= 0 ? (
                                     <td>
-                                    <div className="chip-flex">
-                                        <div className="price-chip">
-                                        {coin.price_change_percentage_24h.toFixed(2)}%
+                                        <div className="chip-flex1">
+                                            <div className="price-chip">
+                                                {coin.price_change_percentage_24h.toFixed(2)}%
+                                            </div>
+                                            <div className="chip-icon td-chip-icon">
+                                                <TrendingUpRoundedIcon />
+                                            </div>
                                         </div>
-                                        <div className="chip-icon td-chip-icon">
-                                        <TrendingUpRoundedIcon />
-                                        </div>
-                                    </div>
                                     </td>
                                 ) : (
                                     <td>
-                                    <div className="chip-flex">
-                                        <div className="price-chip red">
-                                        {coin.price_change_percentage_24h.toFixed(2)}%
+                                        <div className="chip-flex1">
+                                            <div className="price-chip red">
+                                                {coin.price_change_percentage_24h.toFixed(2)}%
+                                            </div>
+                                            <div className="chip-icon td-chip-icon red">
+                                                <TrendingDownRoundedIcon />
+                                            </div>
                                         </div>
-                                        <div className="chip-icon td-chip-icon red">
-                                        <TrendingDownRoundedIcon />
-                                        </div>
-                                    </div>
                                     </td>
                                 )}
-                                </Tooltip>
+                            </Tooltip>
                         </tr>
-                        <tr>    
+                        <tr>
                             <Tooltip title="Coin Info" placement="bottom-start">
                                 <td className="td-info">
                                     <div className="info-flex">
-                                    <p className="coin-symbol">{coin.symbol.toUpperCase()}</p>
-                                    <p className="coin-name">{coin.name}</p>
+                                        <p className="coin-symbol">{coin.symbol.toUpperCase()}</p>
+                                        <p className="coin-name">{coin.name}</p>
                                     </div>
                                 </td>
                             </Tooltip>
-                            <td>{"Binance"}</td>
+                            <Tooltip className="marketcap" title="Coinmaket" placement="bottom-start">
+                                <td>
+                                    <img className="img-marketcap" src={`${process.env.PUBLIC_URL}/binance.png`} alt="Binance Logo" />
+                                    <p>{"Binance"}</p>
+                                </td>
+                            </Tooltip>
                             <Tooltip title="Current Price (USD)" placement="bottom-end">
                                 <td
-                                    className={`current-price ${
-                                    coinBinance.priceChangePercent < 0 ? "current-price-red" : ""
-                                    }`}
+                                    className={`current-price ${coinBinance.priceChangePercent < 0 ? "current-price-red" : ""
+                                        }`}
                                 >
                                     ${parseFloat(coinBinance.lastPrice).toFixed(2)}
                                 </td>
@@ -131,97 +139,105 @@ function Table({ coin }) {
                             <Tooltip
                                 title="Coin Price Percentage In 24hrs"
                                 placement="bottom-start"
-                                >
+                            >
                                 {coinBinance.priceChangePercent >= 0 ? (
                                     <td>
-                                    <div className="chip-flex">
-                                        <div className="price-chip">
-                                        {parseFloat(coinBinance.priceChangePercent).toFixed(2)}%
+                                        <div className="chip-flex1">
+                                            <div className="price-chip">
+                                                {parseFloat(coinBinance.priceChangePercent).toFixed(2)}%
+                                            </div>
+                                            <div className="chip-icon td-chip-icon">
+                                                <TrendingUpRoundedIcon />
+                                            </div>
                                         </div>
-                                        <div className="chip-icon td-chip-icon">
-                                        <TrendingUpRoundedIcon />
-                                        </div>
-                                    </div>
                                     </td>
                                 ) : (
                                     <td>
-                                    <div className="chip-flex">
-                                        <div className="price-chip red">
-                                        {parseFloat(coinBinance.priceChangePercent).toFixed(2)}%
+                                        <div className="chip-flex1">
+                                            <div className="price-chip red">
+                                                {parseFloat(coinBinance.priceChangePercent).toFixed(2)}%
+                                            </div>
+                                            <div className="chip-icon td-chip-icon red">
+                                                <TrendingDownRoundedIcon />
+                                            </div>
                                         </div>
-                                        <div className="chip-icon td-chip-icon red">
-                                        <TrendingDownRoundedIcon />
-                                        </div>
-                                    </div>
-                                    </td>
-                                )}
-                            </Tooltip>
-                        </tr>
-                        <tr>   
-                            <Tooltip title="Coin Info" placement="bottom-start">
-                                <td className="td-info">
-                                    <div className="info-flex">
-                                    <p className="coin-symbol">{coin.symbol.toUpperCase()}</p>
-                                    <p className="coin-name">{coin.name}</p>
-                                    </div>
-                                </td>
-                            </Tooltip>
-                            <td>{"Kucoin"}</td>
-                            <Tooltip title="Current Price (USD)" placement="bottom-end">
-                                <td
-                                    className={`current-price ${
-                                        (coinKucoin.changeRate * 100) < 0 ? "current-price-red" : ""
-                                    }`}
-                                >
-                                    ${parseFloat(coinKucoin.last).toFixed(2)}
-                                </td>
-                            </Tooltip>
-                            
-                            <td>{parseFloat(coinKucoin.volValue).toFixed(2)}$</td>
-                            <Tooltip
-                                title="Coin Price Percentage In 24hrs"
-                                placement="bottom-start"
-                                >
-                                {(coinKucoin.changeRate * 100) >= 0 ? (
-                                    <td>
-                                    <div className="chip-flex">
-                                        <div className="price-chip">
-                                        {(coinKucoin.changeRate * 100).toFixed(2)}%
-                                        </div>
-                                        <div className="chip-icon td-chip-icon">
-                                        <TrendingUpRoundedIcon />
-                                        </div>
-                                    </div>
-                                    </td>
-                                ) : (
-                                    <td>
-                                    <div className="chip-flex">
-                                        <div className="price-chip red">
-                                        {(coinKucoin.changeRate * 100).toFixed(2)}%
-                                        </div>
-                                        <div className="chip-icon td-chip-icon red">
-                                        <TrendingDownRoundedIcon />
-                                        </div>
-                                    </div>
                                     </td>
                                 )}
                             </Tooltip>
                         </tr>
                         <tr>
                             <Tooltip title="Coin Info" placement="bottom-start">
-                                    <td className="td-info">
-                                        <div className="info-flex">
+                                <td className="td-info">
+                                    <div className="info-flex">
                                         <p className="coin-symbol">{coin.symbol.toUpperCase()}</p>
                                         <p className="coin-name">{coin.name}</p>
-                                        </div>
-                                    </td>
+                                    </div>
+                                </td>
                             </Tooltip>
-                            <td>{"Kraken"}</td>
+                            <Tooltip className="marketcap" title="Coinmaket" placement="bottom-start">
+                                <td>
+                                    <img className="img-marketcap" src={`${process.env.PUBLIC_URL}/kucoin.png`} alt="Kucoin Logo" />
+                                    <p>{"Kucoin"}</p>
+                                </td>
+                            </Tooltip>
                             <Tooltip title="Current Price (USD)" placement="bottom-end">
                                 <td
-                                    className={`current-price ${
-                                        (((coinKraken.c - coinOkx.open24h) / coinOkx.open24h) * 100) < 0 ? "current-price-red" : ""
-                                    }`}
+                                    className={`current-price ${(coinKucoin.changeRate * 100) < 0 ? "current-price-red" : ""
+                                        }`}
+                                >
+                                    ${parseFloat(coinKucoin.last).toFixed(2)}
+                                </td>
+                            </Tooltip>
+
+                            <td>{parseFloat(coinKucoin.volValue).toFixed(2)}$</td>
+                            <Tooltip
+                                title="Coin Price Percentage In 24hrs"
+                                placement="bottom-start"
+                            >
+                                {(coinKucoin.changeRate * 100) >= 0 ? (
+                                    <td>
+                                        <div className="chip-flex1">
+                                            <div className="price-chip">
+                                                {(coinKucoin.changeRate * 100).toFixed(2)}%
+                                            </div>
+                                            <div className="chip-icon td-chip-icon">
+                                                <TrendingUpRoundedIcon />
+                                            </div>
+                                        </div>
+                                    </td>
+                                ) : (
+                                    <td>
+                                        <div className="chip-flex1">
+                                            <div className="price-chip red">
+                                                {(coinKucoin.changeRate * 100).toFixed(2)}%
+                                            </div>
+                                            <div className="chip-icon td-chip-icon red">
+                                                <TrendingDownRoundedIcon />
+                                            </div>
+                                        </div>
+                                    </td>
+                                )}
+                            </Tooltip>
+                        </tr>
+                        <tr>
+                            <Tooltip title="Coin Info" placement="bottom-start">
+                                <td className="td-info">
+                                    <div className="info-flex">
+                                        <p className="coin-symbol">{coin.symbol.toUpperCase()}</p>
+                                        <p className="coin-name">{coin.name}</p>
+                                    </div>
+                                </td>
+                            </Tooltip>
+                            <Tooltip className="marketcap" title="Coinmaket" placement="bottom-start">
+                                <td>
+                                    <img className="img-marketcap" src={`${process.env.PUBLIC_URL}/kraken.png`} alt="Coingecko Logo" />
+                                    <p>{"Kraken"}</p>
+                                </td>
+                            </Tooltip>
+                            <Tooltip title="Current Price (USD)" placement="bottom-end">
+                                <td
+                                    className={`current-price ${(((coinKraken.c - coinOkx.open24h) / coinOkx.open24h) * 100) < 0 ? "current-price-red" : ""
+                                        }`}
                                 >
                                     ${parseFloat(coinKraken.c).toFixed(2)}
                                 </td>
@@ -232,28 +248,28 @@ function Table({ coin }) {
                             <Tooltip
                                 title="Coin Price Percentage In 24hrs"
                                 placement="bottom-start"
-                                >
+                            >
                                 {(((coinKraken.c - coinOkx.open24h) / coinOkx.open24h) * 100) >= 0 ? (
                                     <td>
-                                    <div className="chip-flex">
-                                        <div className="price-chip">
-                                        {(((coinKraken.c - coinOkx.open24h) / coinOkx.open24h) * 100).toFixed(2)}%
+                                        <div className="chip-flex1">
+                                            <div className="price-chip">
+                                                {(((coinKraken.c - coinOkx.open24h) / coinOkx.open24h) * 100).toFixed(2)}%
+                                            </div>
+                                            <div className="chip-icon td-chip-icon">
+                                                <TrendingUpRoundedIcon />
+                                            </div>
                                         </div>
-                                        <div className="chip-icon td-chip-icon">
-                                        <TrendingUpRoundedIcon />
-                                        </div>
-                                    </div>
                                     </td>
                                 ) : (
                                     <td>
-                                    <div className="chip-flex">
-                                        <div className="price-chip red">
-                                        {(((coinKraken.c - coinOkx.open24h) / coinOkx.open24h) * 100).toFixed(2)}%
+                                        <div className="chip-flex1">
+                                            <div className="price-chip red">
+                                                {(((coinKraken.c - coinOkx.open24h) / coinOkx.open24h) * 100).toFixed(2)}%
+                                            </div>
+                                            <div className="chip-icon td-chip-icon red">
+                                                <TrendingDownRoundedIcon />
+                                            </div>
                                         </div>
-                                        <div className="chip-icon td-chip-icon red">
-                                        <TrendingDownRoundedIcon />
-                                        </div>
-                                    </div>
                                     </td>
                                 )}
                             </Tooltip>
@@ -261,19 +277,23 @@ function Table({ coin }) {
 
                         <tr>
                             <Tooltip title="Coin Info" placement="bottom-start">
-                                    <td className="td-info">
-                                        <div className="info-flex">
+                                <td className="td-info">
+                                    <div className="info-flex">
                                         <p className="coin-symbol">{coin.symbol.toUpperCase()}</p>
                                         <p className="coin-name">{coin.name}</p>
-                                        </div>
-                                    </td>
+                                    </div>
+                                </td>
                             </Tooltip>
-                            <td>{"Okx"}</td>
+                            <Tooltip className="marketcap" title="Coinmaket" placement="bottom-start">
+                                <td>
+                                    <img className="img-marketcap" src={`${process.env.PUBLIC_URL}/okx.png`} alt="OKX Logo" />
+                                    <p>{"OKX"}</p>
+                                </td>
+                            </Tooltip>
                             <Tooltip title="Current Price (USD)" placement="bottom-end">
                                 <td
-                                    className={`current-price ${
-                                        parseFloat(((coinOkx.last - coinOkx.open24h) / coinOkx.open24h) * 100) < 0 ? "current-price-red" : ""
-                                    }`}
+                                    className={`current-price ${parseFloat(((coinOkx.last - coinOkx.open24h) / coinOkx.open24h) * 100) < 0 ? "current-price-red" : ""
+                                        }`}
                                 >
                                     ${parseFloat(coinOkx.last).toFixed(2)}
                                 </td>
@@ -282,82 +302,86 @@ function Table({ coin }) {
                             <Tooltip
                                 title="Coin Price Percentage In 24hrs"
                                 placement="bottom-start"
-                                >
+                            >
                                 {(((coinOkx.last - coinOkx.open24h) / coinOkx.open24h) * 100) >= 0 ? (
                                     <td>
-                                    <div className="chip-flex">
-                                        <div className="price-chip">
-                                        {parseFloat(((coinOkx.last - coinOkx.open24h) / coinOkx.open24h) * 100).toFixed(2)}%
+                                        <div className="chip-flex1">
+                                            <div className="price-chip">
+                                                {parseFloat(((coinOkx.last - coinOkx.open24h) / coinOkx.open24h) * 100).toFixed(2)}%
+                                            </div>
+                                            <div className="chip-icon td-chip-icon">
+                                                <TrendingUpRoundedIcon />
+                                            </div>
                                         </div>
-                                        <div className="chip-icon td-chip-icon">
-                                        <TrendingUpRoundedIcon />
-                                        </div>
-                                    </div>
                                     </td>
                                 ) : (
                                     <td>
-                                    <div className="chip-flex">
-                                        <div className="price-chip red">
-                                        {parseFloat(((coinOkx.last - coinOkx.open24h) / coinOkx.open24h) * 100).toFixed(2)}%
+                                        <div className="chip-flex1">
+                                            <div className="price-chip red">
+                                                {parseFloat(((coinOkx.last - coinOkx.open24h) / coinOkx.open24h) * 100).toFixed(2)}%
+                                            </div>
+                                            <div className="chip-icon td-chip-icon red">
+                                                <TrendingDownRoundedIcon />
+                                            </div>
                                         </div>
-                                        <div className="chip-icon td-chip-icon red">
-                                        <TrendingDownRoundedIcon />
-                                        </div>
-                                    </div>
                                     </td>
                                 )}
-                            </Tooltip>                            
+                            </Tooltip>
 
                         </tr>
 
                         <tr>
                             <Tooltip title="Coin Info" placement="bottom-start">
-                                    <td className="td-info">
-                                        <div className="info-flex">
+                                <td className="td-info">
+                                    <div className="info-flex">
                                         <p className="coin-symbol">{coin.symbol.toUpperCase()}</p>
                                         <p className="coin-name">{coin.name}</p>
-                                        </div>
-                                    </td>
+                                    </div>
+                                </td>
                             </Tooltip>
-                            <td>{"Gate.io"}</td>
-                            <Tooltip title="Current Price (USD)" placement="bottom-end">
+                            <Tooltip className="marketcap" title="Coinmaket" placement="bottom-start">
+                                <td>
+                                    <img className="img-marketcap" src={`${process.env.PUBLIC_URL}/gate.png`} alt="Gate.io Logo" />
+                                    <p>{"Gate.io"}</p>
+                                </td>
+                            </Tooltip>
+                            <Tooltip title="Current Price (USD)" placement="bottom-end" >
                                 <td
-                                    className={`current-price ${
-                                        parseFloat(coinGate.percentChange) < 0 ? "current-price-red" : ""
-                                    }`}
+                                    className={`current-price ${parseFloat(coinGate.percentChange) < 0 ? "current-price-red" : ""
+                                        }`}
                                 >
                                     ${parseFloat(coinGate.last).toFixed(2)}
                                 </td>
-                            </Tooltip>                            
+                            </Tooltip>
                             <td>{coinGate?.quoteVolume ? parseFloat(coinGate.baseVolume).toFixed(2) + "$" : '--'}</td>
                             <Tooltip
                                 title="Coin Price Percentage In 24hrs"
                                 placement="bottom-start"
-                                >
+                            >
                                 {parseFloat(coinGate.percentChange) >= 0 ? (
                                     <td>
-                                    <div className="chip-flex">
-                                        <div className="price-chip">
-                                        {parseFloat(coinGate.percentChange).toFixed(2)}%
+                                        <div className="chip-flex1">
+                                            <div className="price-chip">
+                                                {parseFloat(coinGate.percentChange).toFixed(2)}%
+                                            </div>
+                                            <div className="chip-icon td-chip-icon">
+                                                <TrendingUpRoundedIcon />
+                                            </div>
                                         </div>
-                                        <div className="chip-icon td-chip-icon">
-                                        <TrendingUpRoundedIcon />
-                                        </div>
-                                    </div>
                                     </td>
                                 ) : (
                                     <td>
-                                    <div className="chip-flex">
-                                        <div className="price-chip red">
-                                        {parseFloat(coinGate.percentChange).toFixed(2)}%
+                                        <div className="chip-flex1">
+                                            <div className="price-chip red">
+                                                {parseFloat(coinGate.percentChange).toFixed(2)}%
+                                            </div>
+                                            <div className="chip-icon td-chip-icon red">
+                                                <TrendingDownRoundedIcon />
+                                            </div>
                                         </div>
-                                        <div className="chip-icon td-chip-icon red">
-                                        <TrendingDownRoundedIcon />
-                                        </div>
-                                    </div>
                                     </td>
                                 )}
-                            </Tooltip>                                
+                            </Tooltip>
                         </tr>
 
                     </tbody>

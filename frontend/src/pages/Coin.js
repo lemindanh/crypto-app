@@ -70,7 +70,7 @@ function Coin() {
         <>
           <div className="grey-wrapper1">
             <List coin={coin} delay={0.5} />
-          </div>
+          </div>       
           <div className="grey-wrapper">
             <SelectDays handleDaysChange={handleDaysChange} days={days} />
             <ToggleComponents
@@ -79,8 +79,8 @@ function Coin() {
             />
             <LineChart chartData={chartData} />
           </div>
-          <Info title={coin.name} desc={coin.desc} />
           <Table coin={coin}/>
+          <Info title={coin.name} desc={coin.desc} />
         </>
       ) : error ? (
         <div>
