@@ -5,7 +5,8 @@ import axios from 'axios';  // Import axios để thực hiện GET request
 const uri = 'mongodb+srv://danhtichtay123:123@crypto-tracker.jfvu0.mongodb.net/crypto-tracker?retryWrites=true&w=majority';
 
 // MongoDB client
-const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+const client = new MongoClient(uri);
+
 
 // Hàm để lấy dữ liệu từ CoinGecko và lưu vào MongoDB
 export const getCoinPricesAndSave = async (req, res) => {

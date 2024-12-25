@@ -5,7 +5,8 @@ import { MongoClient } from 'mongodb';
 const uri = 'mongodb+srv://danhtichtay123:123@crypto-tracker.jfvu0.mongodb.net/crypto-tracker?retryWrites=true&w=majority';
 
 // MongoDB client
-const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+const client = new MongoClient(uri);
+
 
 const apiUrl = 'https://api.coingecko.com/api/v3/coins/';
 

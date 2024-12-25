@@ -28,9 +28,9 @@ function Dashboard() {
         "http://localhost:5000/api/coins"
       )
       .then((response) => {
-        console.log("RESPONSE>>>", response.data.coins);
-        setCoins(response.data.coins);
-        setPaginatedCoins(response.data.coins.slice(0, 10));
+        console.log("RESPONSE>>>", response.data.coin);
+        setCoins(response.data.coin);
+        setPaginatedCoins(response.data.coin.slice(0, 10));
         setLoading(false);
       })
       .catch((error) => {
