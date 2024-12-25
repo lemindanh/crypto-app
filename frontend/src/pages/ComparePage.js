@@ -40,8 +40,11 @@ function Compare() {
       setAllCoins(coins);
       const data1 = await getCoinData(crypto1);
       const data2 = await getCoinData(crypto2);
-      settingCoinObject(data1, setCoin1Data);
-      settingCoinObject(data2, setCoin2Data);
+      if (data1) {
+        settingCoinObject(data1, setCoin1Data);
+        settingCoinObject(data2, setCoin2Data);
+      }
+
       if (data1 && data2) {
         // getPrices
         const prices1 = await getPrices(crypto1, days, priceType);
@@ -60,7 +63,9 @@ function Compare() {
       setCrypto2(newCrypto2);
       // fetch coin2 data
       const data2 = await getCoinData(newCrypto2);
-      settingCoinObject(data2, setCoin2Data);
+      if (data2) {
+        settingCoinObject(data2, setCoin2Data);
+      }
       // fetch prices again
       const prices1 = await getPrices(crypto1, days, priceType);
       const prices2 = await getPrices(newCrypto2, days, priceType);
@@ -71,7 +76,9 @@ function Compare() {
       setCrypto1(newCrypto1);
       // fetch coin1 data
       const data1 = await getCoinData(newCrypto1);
-      settingCoinObject(data1, setCoin1Data);
+      if (data1) {
+        settingCoinObject(data1, setCoin1Data);
+      }
       // fetch coin prices
       const prices1 = await getPrices(newCrypto1, days, priceType);
       const prices2 = await getPrices(crypto2, days, priceType);

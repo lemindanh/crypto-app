@@ -10,7 +10,7 @@ const ButtonTradingView = () => {
   };
 
   const handleClosePopup = (event) => {
-    event.stopPropagation(); // Ngăn sự kiện lan ra ngoài
+    event.stopPropagation();
     setIsPopupVisible(false);
   };
 
@@ -24,12 +24,11 @@ const ButtonTradingView = () => {
         <div className="popup-overlay" onClick={handleClosePopup}>
           <div
             className="popup-content"
-            onClick={(e) => e.stopPropagation()} // Ngăn đóng popup khi nhấn vào nội dung
+            onClick={(e) => e.stopPropagation()}
           >
             <button className="close-button" onClick={handleClosePopup}>
               Close
             </button>
-            {/* Chỉ render TradingViewChart khi popup hiển thị */}
             {isPopupVisible && <TradingViewChart symbol="BTCUSDT" />}
           </div>
         </div>

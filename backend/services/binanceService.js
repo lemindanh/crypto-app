@@ -1,6 +1,5 @@
 import Binance from 'binance-api-node';
 
-// Initialize Binance client
 const client = Binance.default();
 
 export const getStatsBinance = async (coin) => {

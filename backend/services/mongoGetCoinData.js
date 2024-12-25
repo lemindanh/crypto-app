@@ -1,36 +1,55 @@
 import axios from 'axios';
 import { MongoClient } from 'mongodb';
 
-// MongoDB connection URI
 const uri = 'mongodb+srv://danhtichtay123:123@crypto-tracker.jfvu0.mongodb.net/crypto-tracker?retryWrites=true&w=majority';
 
-// MongoDB client
 const client = new MongoClient(uri);
-
 
 const apiUrl = 'https://api.coingecko.com/api/v3/coins/';
 
 export async function getCoinDataFromAPIAndSave(id) {
-  // Lấy dữ liệu từ API
-  const response = await axios.get(apiUrl + `${id}`);
-  const coinData = response.data;
+  let coinData;
+  try {
+    console.log(`Fetching data for coin with ID: ${id} from API...`);
+    const response = await axios.get(apiUrl + `${id}`);
+    coinData = response.data;
 
-  // Kết nối đến MongoDB
-  await client.connect();
+    console.log('Connecting to MongoDB...');
+    await client.connect();
+    const database = client.db('crypto-tracker');
+    const coinsCollection = database.collection('coin');
 
-  // Lấy reference đến collection "coins" trong database "crypto-tracker"
-  const database = client.db('crypto-tracker');
-  const coinsCollection = database.collection('coin');
+    console.log(`Removing old data for coin with ID: ${id} from database...`);
+    await coinsCollection.deleteOne({ id });
 
-  // Xóa tất cả dữ liệu cũ trong collection 'coin' trước khi thêm mới
-  await coinsCollection.deleteMany({});
+    console.log('Inserting new data into database...');
+    await coinsCollection.insertOne(coinData);
 
-  // Lưu dữ liệu mới vào MongoDB (sử dụng insertOne để thêm một coin)
-  await coinsCollection.insertOne(coinData);
-  console.log(`Successfully inserted the coin into the database.`);
+    console.log('Successfully updated the coin in the database.');
+  } catch (error) {
+    console.error('Error fetching data from API:', error.message);
 
-  // Đảm bảo đóng kết nối MongoDB
-  await client.close();
+    try {
+      console.log('Fetching old data from MongoDB...');
+      await client.connect();
+      const database = client.db('crypto-tracker');
+      const coinsCollection = database.collection('coin');
 
-  return coinData;  // Trả về coin mới lấy được
+      coinData = await coinsCollection.findOne({ id });
+
+      if (!coinData) {
+        console.error(`No data found in database for coin with ID: ${id}`);
+        throw new Error('No data available.');
+      }
+
+      console.log('Successfully fetched old data from MongoDB.');
+    } catch (dbError) {
+      console.error('Error fetching old data from MongoDB:', dbError.message);
+      throw dbError;
+    }
+  } finally {
+    await client.close();
+  }
+
+  return coinData;
 }

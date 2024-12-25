@@ -7,7 +7,6 @@ import TabsComponent from "../components/Dashboard/Tabs";
 import PaginationComponent from "../components/Dashboard/Pagination";
 import Loader from "../components/Common/Loader";
 import TopButton from "../components/Common/TopButton";
-//import Footer from "../components/Common/Footer/footer";
 
 function Dashboard() {
   const [coins, setCoins] = useState([]);
@@ -17,7 +16,6 @@ function Dashboard() {
   const [paginatedCoins, setPaginatedCoins] = useState([]);
 
   useEffect(() => {
-    // Get 100 Coins
     getData();
   }, []);
 
@@ -53,7 +51,6 @@ function Dashboard() {
 
   const handlePageChange = (event, value) => {
     setPage(value);
-    // Value = new page number
     var initialCount = (value - 1) * 10;
     setPaginatedCoins(coins.slice(initialCount, initialCount + 10));
   };
@@ -79,21 +76,8 @@ function Dashboard() {
         </>
       )}
       <TopButton />
-      {/* <Footer /> */}
     </>
   );
 }
 
 export default Dashboard;
-
-// coins == 100 coins
-
-// PaginatedCoins -> Page 1 - coins.slice(0,10)
-// PaginatedCoins -> Page 2 = coins.slice(10,20)
-// PaginatedCoins -> Page 3 = coins.slice(20,30)
-// .
-// .
-// PaginatedCoins -> Page 10 = coins.slice(90,100)
-
-// PaginatedCoins -> Page X , then initial Count = (X-1)*10
-// coins.slice(initialCount,initialCount+10)

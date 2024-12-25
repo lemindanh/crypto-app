@@ -39,7 +39,7 @@ function Header() {
     };
 
     return <div className="navbar">
-        <h1>CryptoTracker<span style={{ color: "var(--blue" }}>.</span></h1>
+        <h1>CoinStream<span style={{ color: "var(--blue" }}>.</span></h1>
         <div className="links">
             <Switch checked={darkMode} onClick={() => changeMode()} />
             <Link to="/">

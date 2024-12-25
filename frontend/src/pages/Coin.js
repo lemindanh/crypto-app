@@ -38,7 +38,7 @@ function Coin() {
     if (coinData) {
       const prices = await getPrices(id, days, priceType, setError);
       if (prices) {
-        settingChartData(setChartData, prices);
+        settingChartData(setChartData, prices, null);
         setIsLoading(false);
       }
     }

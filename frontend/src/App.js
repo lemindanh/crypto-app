@@ -6,7 +6,6 @@ import DashboardPage from './pages/Dashpoard';
 import ComparePage from './pages/ComparePage';
 import Watchlist from './pages/Watchlist';
 import { ToastContainer } from 'react-toastify';
-import Coin2 from './pages/Coin2';
 
 function App() {
 
@@ -21,7 +20,6 @@ function App() {
           <Route path='/' element={<Homepage />} />
           <Route path='/dashboard' element={<DashboardPage />} />
           <Route path='/coin/:id' element={<CoinPage />} />
-          <Route path='/coin2' element={<Coin2 />} />
           <Route path='/compare' element={<ComparePage />} />
           <Route path='/watchlist' element={<Watchlist />} />
         </Routes>

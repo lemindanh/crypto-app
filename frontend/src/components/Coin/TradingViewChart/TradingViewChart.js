@@ -13,35 +13,35 @@ const TradingViewChart = ({ symbol }) => {
 
     script.onload = () => {
       new window.TradingView.widget({
-        container_id: containerRef.current.id, // Sử dụng ref để lấy container
+        container_id: containerRef.current.id,
         autosize: true,
         symbol: symbol,
-        interval: "60", // Khung thời gian: 1 phút, 1 giờ, 1 ngày
+        interval: "60",
         timezone: "Etc/UTC",
-        theme: "dark", // Theme: light hoặc dark
-        style: "1", // Loại biểu đồ: 1 = candlestick
-        locale: "en", // Ngôn ngữ
-        toolbar_bg: "#f1f3f6", // Màu nền của thanh công cụ
+        theme: "dark",
+        style: "1",
+        locale: "en",
+        toolbar_bg: "#f1f3f6",
         hide_side_toolbar: false,
-        allow_symbol_change: true, // Cho phép thay đổi đồng coin
-        studies: [], // Các chỉ báo (e.g., "MACD@tv-basicstudies")
+        allow_symbol_change: true,
+        studies: [], 
       });
     };
 
-    // Thêm script vào DOM khi component mount
+ 
     containerRef.current.appendChild(script);
 
-    // Cleanup khi component unmount
+
     return () => {
       if (containerRef.current) {
-        containerRef.current.innerHTML = ""; // Dọn dẹp container
+        containerRef.current.innerHTML = "";
       }
       const existingScript = document.getElementById("tradingview-script");
       if (existingScript) {
-        existingScript.remove(); // Loại bỏ script khi component unmount
+        existingScript.remove();
       }
     };
-  }, [symbol]); // Reload khi symbol thay đổi
+  }, [symbol]);
 
   return <div id="tradingview_widget" ref={containerRef} style={{ height: "500px" }} />;
 };

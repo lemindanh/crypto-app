@@ -15,7 +15,7 @@ function MainComponent({ text, onclick, outlined }) {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5 }}
             >
-                Track Crypto
+                Coin Stream
             </motion.h1>
             <motion.h1 className="real-time-heading"
                 initial={{ opacity: 0, y: 50 }}
@@ -29,7 +29,7 @@ function MainComponent({ text, onclick, outlined }) {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 1 }}
             >
-                Track crypto through a public api in real time. Visit the dashboard
+                Coin stream through a public api in real time. Visit the dashboard
                 to do so!
             </motion.p>
             <motion.div className="btn-flex"
