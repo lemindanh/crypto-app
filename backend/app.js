@@ -4,7 +4,6 @@ import balanceRoute from './routes/balance.js';
 import coinsDataRoute from './routes/coinsData.js'
 import coinDataRoute from './routes/coinData.js'
 import coinPricesRoute from './routes/coinPrices.js'
-
 import cors from 'cors';
 
 const app = express();

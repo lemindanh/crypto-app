@@ -23,7 +23,7 @@ export async function getCoinsDataFromAPIAndSave() {
 
   // Lưu dữ liệu mới vào MongoDB (sử dụng insertOne để thêm một coin)
   const coinsData = await coinsCollection.find({}).toArray();
-  const result = await coinsCollection.insertMany(coinData);
+  const result = await coinsCollection.insertMany(coinsData);
   console.log(`Successfully inserted the coin into the database.`);
 
   // Đảm bảo đóng kết nối MongoDB
